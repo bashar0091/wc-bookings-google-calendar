@@ -66,7 +66,7 @@ class Google_calendar_event {
 
             if ($calendar_id) {
 
-                $credentials = __DIR__ . '/credentials.json';
+                $credentials = __DIR__ . '/uploads/credentials.json';
 
                 $client = new Google_Client();
                 $client->setApplicationName('testoo');

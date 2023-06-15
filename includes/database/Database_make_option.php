@@ -16,6 +16,7 @@ class Database_make_option
         $googleCalendarRedirect = get_option('google_calendar_redirect');
         $googleCalendarToken = get_option('google_calendar_token');
         $googleCalendarTimezone = get_option('google_calendar_Timezone');
+        $googleJson = get_option('google_json');
 
         if (empty($googleClientId)) {
             update_option('google_client_id', null);
@@ -31,6 +32,10 @@ class Database_make_option
 
         if (empty($googleCalendarTimezone)) {
             update_option('google_calendar_Timezone', null);
+        }
+
+        if (empty($googleJson)) {
+            update_option('google_json', null);
         }
     }
 }
