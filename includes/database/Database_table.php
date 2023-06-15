@@ -42,7 +42,7 @@ class Database_table
         ));
 
         if (empty($product_ids)) {
-            return; // No product IDs found
+            return;
         }
 
         $table_name = $this->wpdb->prefix . 'google_calendar_id';

@@ -20,8 +20,10 @@ class Product_table_option
         global $post, $wpdb;
 
         $product = wc_get_product($post_id);
+        
         $product_slug = $product->get_slug();
         $product_id = $product->get_id();
+        $product_type = $product->get_type();
 
         if ($column_name == 'generate_calendar' && $post->post_status === 'publish') {
 
@@ -32,15 +34,18 @@ class Product_table_option
                     $product_id
                 )
             );
-
             if ($calendar_id) {
                 echo 'Generated';
             } else {
-                echo '<form action="" method="get">';
-                echo '<input type="hidden" name="calendarName" value="' . $product_slug . '">';
-                echo '<input type="hidden" name="productId" value="' . $product_id . '">';
-                echo '<button type="submit" name="CalendarGenerate" class="button button-secondary"> Generate </button>';
-                echo '</form>';
+                if($product_type == 'booking') {
+                    echo '<form action="" method="get">';
+                    echo '<input type="hidden" name="calendarName" value="' . $product_slug . '">';
+                    echo '<input type="hidden" name="productId" value="' . $product_id . '">';
+                    echo '<button type="submit" name="CalendarGenerate" class="button button-secondary"> Generate </button>';
+                    echo '</form>';
+                } else {
+                    echo 'Not Booking Product';
+                }
             }
         }
     }

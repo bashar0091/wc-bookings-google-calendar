@@ -15,6 +15,7 @@ class Database_make_option
         $googleClientSecret = get_option('google_client_secret');
         $googleCalendarRedirect = get_option('google_calendar_redirect');
         $googleCalendarToken = get_option('google_calendar_token');
+        $googleCalendarTimezone = get_option('google_calendar_Timezone');
 
         if (empty($googleClientId)) {
             update_option('google_client_id', null);
@@ -28,8 +29,8 @@ class Database_make_option
             update_option('google_calendar_redirect', null);
         }
 
-        if (empty($googleCalendarRedirect)) {
-            update_option('google_calendar_token', null);
+        if (empty($googleCalendarTimezone)) {
+            update_option('google_calendar_Timezone', null);
         }
     }
 }

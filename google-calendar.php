@@ -21,7 +21,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use WcBookingCalender\Admin_menu;
 use WcBookingCalender\Google_calendar;
+use WcBookingCalender\Google_calendar_event;
 use WcBookingCalender\Product_table_option;
+use WcBookingCalender\Product_delete_handler;
 
 use WcBCDatabase\Database_table;
 use WcBCDatabase\Database_make_option;
@@ -83,8 +85,14 @@ class Wc_booking_google_calendar
         $google_calendar = new Google_calendar();
         $google_calendar->create_google_calendar(); 
 
+        $google_calendar_event = new Google_calendar_event();
+        $google_calendar_event->create_google_calendar_event(); 
+
         $product_table_option = new Product_table_option();
         $product_table_option->table_column();
+
+        $product_delete_handler = new Product_delete_handler();
+        $product_delete_handler->product_delete();
     }
 
     /**

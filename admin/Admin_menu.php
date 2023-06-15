@@ -31,6 +31,7 @@ class Admin_menu
         $googleClientIdValue = esc_attr(get_option('google_client_id'));
         $googleClientSecretValue = esc_attr(get_option('google_client_secret'));
         $googleCalendarRedirectValue = esc_attr(get_option('google_calendar_redirect'));
+        $googleCalendarTimezone = esc_attr(get_option('google_calendar_Timezone'));
 
         if (isset($_GET['success_message'])) {
             $success_message = sanitize_text_field($_GET['success_message']);
@@ -54,6 +55,10 @@ class Admin_menu
                     <tr>
                         <th><label for="google-calendar-redirect">Google Calendar Redirect:</label></th>
                         <td><input type="text" id="google-calendar-redirect" name="google-calendar-redirect" value="' . $googleCalendarRedirectValue . '" required></td>
+                    </tr>
+                    <tr>
+                        <th><label for="google-calendar-timezone">Timezone:</label></th>
+                        <td><input type="text" id="google-calendar-timezone" name="google-calendar-timezone" value="' . $googleCalendarTimezone . '" required></td>
                     </tr>
                 </table>
                 

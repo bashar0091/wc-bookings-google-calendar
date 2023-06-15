@@ -10,11 +10,13 @@ class Calendar_credentials_handler
             $googleClientId = sanitize_text_field($_POST['google-client-id']);
             $googleClientSecret = sanitize_text_field($_POST['google-client-secret']);
             $googleCalendarRedirect = sanitize_text_field($_POST['google-calendar-redirect']);
+            $googleCalendarTimezone = sanitize_text_field($_POST['google-calendar-timezone']);
             
             // Update options in the database
             update_option('google_client_id', $googleClientId);
             update_option('google_client_secret', $googleClientSecret);
             update_option('google_calendar_redirect', $googleCalendarRedirect);
+            update_option('google_calendar_Timezone', $googleCalendarTimezone);
 
             // Set success message
             $success_message = "Updated successfully!";
