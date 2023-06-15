@@ -53,7 +53,24 @@ class Google_calendar
 
             $createdCalendar = $service->calendars->insert($calendar);
 
-            echo 'Calendar created! ID: ' . $createdCalendar->getId();
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'google_calendar_id';
+            $productID = $_SESSION['productId'];
+            $calendarId = $createdCalendar->getId();
+
+            $data = array(
+                'calendar_id' => $calendarId,
+            );
+
+            $where = array(
+                'product_id' => $productID,
+            );
+
+            $wpdb->update(
+                $table_name,
+                $data,
+                $where
+            );
 
             wp_redirect( home_url() . '/wp-admin');
             exit;

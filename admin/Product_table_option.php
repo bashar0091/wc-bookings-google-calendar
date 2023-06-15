@@ -17,18 +17,31 @@ class Product_table_option
     }
     
     public function custom_wc_product_table_column_content( $column_name, $post_id ) {
-        global $post;
+        global $post, $wpdb;
 
         $product = wc_get_product($post_id);
         $product_slug = $product->get_slug();
         $product_id = $product->get_id();
 
         if ($column_name == 'generate_calendar' && $post->post_status === 'publish') {
-            echo '<form action="" method="get">';
+
+            $table_name = $wpdb->prefix . 'google_calendar_id';
+            $calendar_id = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT calendar_id FROM $table_name WHERE product_id = %d",
+                    $product_id
+                )
+            );
+
+            if ($calendar_id) {
+                echo 'Generated';
+            } else {
+                echo '<form action="" method="get">';
                 echo '<input type="hidden" name="calendarName" value="' . $product_slug . '">';
                 echo '<input type="hidden" name="productId" value="' . $product_id . '">';
                 echo '<button type="submit" name="CalendarGenerate" class="button button-secondary"> Generate </button>';
-            echo '</form>';
+                echo '</form>';
+            }
         }
     }
 }
