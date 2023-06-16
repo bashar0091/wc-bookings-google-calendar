@@ -27,6 +27,8 @@ class Admin_menu
 
     public function display_custom_submenu_page()
     {
+        global $wpdb;
+
         // Retrieve option values
         $googleClientIdValue = esc_attr(get_option('google_client_id'));
         $googleClientSecretValue = esc_attr(get_option('google_client_secret'));
@@ -69,7 +71,27 @@ class Admin_menu
                 exit;
             } 
         }
-        
+
+        // All calendar list query
+        $table_name = $wpdb->prefix . 'google_calendar_id';
+
+        $query = "SELECT * FROM $table_name";
+        $results = $wpdb->get_results($query);
+
+        // Update calendar id query 
+        if(isset($_POST['calendarIdupdate'])){
+            $mainId = $_POST['mainId'];
+
+            $wpdb->update(
+                $table_name,
+                array('calendar_id' => ''),
+                array('id' => $mainId)
+            );
+            
+            wp_redirect($_SERVER['REQUEST_URI']);
+            exit;
+        }
+
         echo '
         <div class="wrap">
             <h1 class="wp-heading-inline">Google API Configuration</h1>
@@ -121,8 +143,57 @@ class Admin_menu
             }
 
         echo '
-        </div>';
+        </div>
 
+        <hr>
+        <hr>';
+
+        echo '
+        <div class="wrap">
+            <h1 class="wp-heading-inline">All Calendar List</h1>
+            <table class="wp-list-table widefat fixed striped table-view-list posts">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Calendar Name</th>
+                        <th>Calendar Id</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody';
+                    if ($results) {
+                        $count = 1;
+                        foreach ($results as $row) {
+                            $ID = $row->id;
+
+                            $productId = $row->product_id;
+                            $product_slug = get_post_field('post_name', $productId);
+
+                            $calendarId = $row->calendar_id;
+                    
+                            if (!empty($calendarId)) {
+                                echo "
+                                <tr>
+                                    <td>$count</td>
+                                    <td>$product_slug</td>
+                                    <td>$calendarId</td>
+                                    <td>
+                                        <form action='' method='post'>
+                                            <input type='hidden' value='$ID' name='mainId'/>
+                                            <button type='submit' name='calendarIdupdate' class='button button-primary'>Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>";
+                        
+                                $count++;
+                            }
+                        }
+                    }
+                echo '
+                </tbody>
+            </table>
+        </div>
+        ';
     }
 
 }
