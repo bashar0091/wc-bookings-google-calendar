@@ -92,6 +92,9 @@ class Admin_menu
             exit;
         }
 
+        // read the email from json file 
+        $file_path = dirname(plugin_dir_path(__FILE__)) . '/admin/uploads/credentials.json';
+
         echo '
         <div class="wrap">
             <h1 class="wp-heading-inline">Google API Configuration</h1>
@@ -147,6 +150,23 @@ class Admin_menu
 
         <hr>
         <hr>';
+
+        if (file_exists($file_path)) {
+            $json_data = file_get_contents($file_path);
+            $data = json_decode($json_data, true);
+            if ($data !== null) {
+                echo '
+                <div class="wrap">
+                    <h3>Copy this email to configure your calendar</h3>';
+                
+                echo '<span style="color: red;">' . $data['client_email'] . '</span>';
+                
+                echo '
+                </div>
+                <hr>
+                <hr>';
+            }
+        }
 
         echo '
         <div class="wrap">
